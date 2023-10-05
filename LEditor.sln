@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34018.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LEditor", "LEditor\LEditor.vcxproj", "{5BDE8D40-CD29-438F-9BA4-924B6F84BA6A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5BDE8D40-CD29-438F-9BA4-924B6F84BA6A}.Debug|x64.ActiveCfg = Debug|x64
+		{5BDE8D40-CD29-438F-9BA4-924B6F84BA6A}.Debug|x64.Build.0 = Debug|x64
+		{5BDE8D40-CD29-438F-9BA4-924B6F84BA6A}.Debug|x86.ActiveCfg = Debug|Win32
+		{5BDE8D40-CD29-438F-9BA4-924B6F84BA6A}.Debug|x86.Build.0 = Debug|Win32
+		{5BDE8D40-CD29-438F-9BA4-924B6F84BA6A}.Release|x64.ActiveCfg = Release|x64
+		{5BDE8D40-CD29-438F-9BA4-924B6F84BA6A}.Release|x64.Build.0 = Release|x64
+		{5BDE8D40-CD29-438F-9BA4-924B6F84BA6A}.Release|x86.ActiveCfg = Release|Win32
+		{5BDE8D40-CD29-438F-9BA4-924B6F84BA6A}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0711DCDE-4322-4A3E-B23D-3E8C59B8007E}
+	EndGlobalSection
+EndGlobal
