@@ -14,8 +14,13 @@ public:
 	void FileSaveAs(const wxCommandEvent& event);
 	void FileExit(const wxCommandEvent& event);
 private:
-	// ----------
-	// Text Area
+	// ---------------
+	// Text Area vars
 	wxTextCtrl* textArea;
+
+	// ----------------------
+	// Open File Dialog vars
+	wxString fileOpenPath;
+	std::ifstream readFile;
 };
 

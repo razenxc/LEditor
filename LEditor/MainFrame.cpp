@@ -1,10 +1,10 @@
-#include "MainFrame.h"
+﻿#include "MainFrame.h"
 
 // ------
 // to-do
 /*
 1. add unicode
-2. after second opening file clear first file
+2. after second opening file clear first file ✅
 */
 
 MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
@@ -52,12 +52,13 @@ void MainFrame::FileOpen(const wxCommandEvent& event)
 	if (fileOpenDialog.ShowModal() == wxID_CANCEL)
 		return;
 	std::string line;
-	wxString fileOpenPath = fileOpenDialog.GetPath();
+	fileOpenPath = fileOpenDialog.GetPath();
 	std::ifstream readFile(fileOpenPath.ToStdString());
 	if (!readFile.is_open())
 	{
 		wxMessageBox("Cannot open file: " + fileOpenPath, "Error", wxICON_ERROR);
 	}
+	textArea->Clear();
 	if (readFile.is_open())
 	{
 		while (std::getline(readFile, line))
@@ -65,6 +66,7 @@ void MainFrame::FileOpen(const wxCommandEvent& event)
 			textArea->AppendText(line + "\n");
 		}
 		textArea->SetInsertionPoint(0);
+		readFile.close();
 	}
 	wxLogStatus(fileOpenPath);
 }
