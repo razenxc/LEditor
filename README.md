@@ -1,5 +1,5 @@
 # LEditor
-Just Notepad/Editor for files writed on C++ with wxWidgets Library
+Just Notepad writed on C++ with wxWidgets Library
 
 [![Version](https://badge.fury.io/gh/razenxc%2FLEditor.svg)](https://github.com/razenxc/LEditor/releases)
 
