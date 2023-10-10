@@ -5,6 +5,8 @@
 /*
 1. add unicode
 2. after second opening file clear first file ✅
+3. stop reading a file only after it is closed or the application is closed
+4. check for changes in files, which would write * if there are changes in the file
 */
 
 MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
@@ -51,12 +53,15 @@ void MainFrame::FileOpen(const wxCommandEvent& event)
 	wxFileDialog fileOpenDialog(this, "Select file", "", "");
 	if (fileOpenDialog.ShowModal() == wxID_CANCEL)
 		return;
+
 	std::string line;
-	fileOpenPath = fileOpenDialog.GetPath();
-	std::ifstream readFile(fileOpenPath.ToStdString());
+	defaultFile = fileOpenDialog.GetPath();
+	defaultDir = fileOpenDialog.GetDirectory();
+	std::ifstream readFile(defaultFile.ToStdString());
+
 	if (!readFile.is_open())
 	{
-		wxMessageBox("Cannot open file: " + fileOpenPath, "Error", wxICON_ERROR);
+		wxMessageBox("Cannot open file: " + defaultDir, "Error", wxICON_ERROR);
 	}
 	textArea->Clear();
 	if (readFile.is_open())
@@ -68,17 +73,42 @@ void MainFrame::FileOpen(const wxCommandEvent& event)
 		textArea->SetInsertionPoint(0);
 		readFile.close();
 	}
-	wxLogStatus(fileOpenPath);
+	wxLogStatus(defaultFile);
 }
 
 void MainFrame::FileSave(const wxCommandEvent& event)
 {
 	wxLogStatus("File -> Save");
+	if (defaultDir.IsEmpty())
+	{
+		FileSaveAs(event);
+	}
+	std::ofstream writeFile(defaultFile.ToStdString());
+	wxString contentToSave = textArea->GetValue();
+	writeFile << contentToSave.ToStdString();
+	writeFile.close();
+	wxLogStatus("Saved as " + defaultFile);
 }
 
 void MainFrame::FileSaveAs(const wxCommandEvent& event)
 {
 	wxLogStatus("File -> Save As");
+	wxFileDialog fileSaveDialog(this, "Select save path", "", "", "", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+	if (fileSaveDialog.ShowModal() == wxID_CANCEL)
+		return;
+
+	defaultFile = fileSaveDialog.GetPath();
+	defaultDir = fileSaveDialog.GetDirectory();
+
+	std::ofstream writeFile(defaultFile.ToStdString());
+
+	if (writeFile.is_open())
+	{
+		wxString contentToSave = textArea->GetValue();
+		writeFile << contentToSave.ToStdString();
+		writeFile.close();
+	}
+	wxLogStatus("Saved as " + defaultFile);
 }
 
 void MainFrame::FileExit(const wxCommandEvent& event)

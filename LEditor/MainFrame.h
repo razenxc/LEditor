@@ -19,8 +19,8 @@ private:
 	wxTextCtrl* textArea;
 
 	// ----------------------
-	// Open File Dialog vars
-	wxString fileOpenPath;
-	std::ifstream readFile;
+	// Files vars
+	wxString defaultDir = wxEmptyString;
+	wxString defaultFile = wxEmptyString;
 };
 
