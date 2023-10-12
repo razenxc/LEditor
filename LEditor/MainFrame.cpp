@@ -91,11 +91,13 @@ void MainFrame::FileOpen(const wxCommandEvent& event)
 
 	if (readFile.is_open())
 	{
+		textArea->Disable();
 		while (std::getline(readFile, line))
 		{
 			textArea->AppendText(line + "\n");
 		}
 		textArea->SetInsertionPoint(0);
+		textArea->Enable();
 		readFile.close();
 	}
 	wxLogStatus("Opened " + defaultFile);
@@ -161,5 +163,5 @@ void MainFrame::FileExit(const wxCommandEvent& event)
 
 void MainFrame::HelpAbout(const wxCommandEvent& event)
 {
-	wxMessageBox("----------------------------------------------------\n| LEditor - Simple Text Editor\n| Razenxc Software 2023 © - github.com/razenxc/LEditor\n| Apache-2.0 license\n----------------------------------------------------", "About Program", wxOK | wxSTAY_ON_TOP | wxICON_NONE, textArea);
+	wxMessageBox("LEditor - Simple Text Editor\nRazenxc Software 2023 © - github.com/razenxc/LEditor\nApache - 2.0 license", "About Program", wxOK | wxSTAY_ON_TOP | wxICON_NONE, textArea);
 }
