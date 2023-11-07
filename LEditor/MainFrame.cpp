@@ -1,17 +1,12 @@
 ﻿#include "MainFrame.h"
 
-// ------
-// to-do
-/*
-1. add unicode
-2. after second opening file clear first file ✅
-3. lock file reading after open
-4. check for changes in files, which would write * if there are changes in the file
-5. in MainFrame::File Close, create a message box with confirmation to close the file
-*/
-
 MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
 {
+	// ------
+	// Frame
+	this->Bind(wxEVT_CLOSE_WINDOW, &MainFrame::OnAppClose, this);
+	this->Bind(wxEVT_CHAR_HOOK, &MainFrame::Shortcuts, this);
+
 	// ---------
 	// Menu Bar
 	wxMenuBar* menuBar = new wxMenuBar;
@@ -69,7 +64,7 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
 
 // --------------
 // File Menu
-void MainFrame::FileOpen(const wxCommandEvent& event)
+void MainFrame::FileOpen(wxCommandEvent& event)
 {
 	wxLogStatus("File -> Open");
 
@@ -103,7 +98,7 @@ void MainFrame::FileOpen(const wxCommandEvent& event)
 	wxLogStatus("Opened " + defaultFile);
 }
 
-void MainFrame::FileSave(const wxCommandEvent& event)
+void MainFrame::FileSave(wxCommandEvent& event)
 {
 	wxLogStatus("File -> Save");
 
@@ -120,7 +115,7 @@ void MainFrame::FileSave(const wxCommandEvent& event)
 	wxLogStatus("Saved as " + defaultFile);
 }
 
-void MainFrame::FileSaveAs(const wxCommandEvent& event)
+void MainFrame::FileSaveAs(wxCommandEvent& event)
 {
 	wxLogStatus("File -> Save As");
 	wxFileDialog fileSaveDialog(this, "Select save path", "", "", "", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
@@ -138,14 +133,10 @@ void MainFrame::FileSaveAs(const wxCommandEvent& event)
 		writeFile << contentToSave.ToStdString();
 		writeFile.close();
 	}
-	if (!readFile.is_open())
-	{
-		wxMessageBox("Cannot open file: " + defaultFile, "Error", wxICON_ERROR);
-	}
 	wxLogStatus("Saved as " + defaultFile);
 }
 
-void MainFrame::FileClose(const wxCommandEvent& event)
+void MainFrame::FileClose(wxCommandEvent& event)
 {
 	wxLogStatus(defaultFile + " closed");
 	defaultFile = wxEmptyString;
@@ -153,7 +144,7 @@ void MainFrame::FileClose(const wxCommandEvent& event)
 	textArea->Clear();
 }
 
-void MainFrame::FileExit(const wxCommandEvent& event)
+void MainFrame::FileExit(wxCommandEvent& event)
 {
 	wxExit();
 }
@@ -161,7 +152,53 @@ void MainFrame::FileExit(const wxCommandEvent& event)
 // ----------
 // Help Menu
 
-void MainFrame::HelpAbout(const wxCommandEvent& event)
+void MainFrame::HelpAbout(wxCommandEvent& event)
 {
-	wxMessageBox("LEditor - Simple Text Editor\nRazenxc Software 2023 © - github.com/razenxc/LEditor\nApache - 2.0 license", "About Program", wxOK | wxSTAY_ON_TOP | wxICON_NONE, textArea);
+	wxMessageBox("LEditor - Simple Text Editor v1.1.0\nRazenxc Software 2023 © - github.com/razenxc/LEditor\nApache - 2.0 license\n\nShortcuts:\nOpen: Control + O ;\nSave: Control + S ; Save As: Control + Shift + S ;", "About Program", wxOK | wxSTAY_ON_TOP | wxICON_NONE, textArea);
+}
+
+// -----------
+// App Events
+void MainFrame::Shortcuts(wxKeyEvent& event)
+{
+	wxChar key = event.GetKeyCode();
+	wxLogStatus(wxString::Format("Key code: " + key));
+	int modifiers = event.GetModifiers();
+
+	if ((modifiers & wxMOD_CONTROL) && (key == 'O'))
+	{
+		wxCommandEvent openEvent(wxEVT_COMMAND_MENU_SELECTED, wxID_OPEN);
+		openEvent.SetEventObject(this);
+		FileSave(openEvent);
+	}
+	else if ((modifiers & wxMOD_CONTROL) && (key == 'S')) {
+		wxCommandEvent saveEvent(wxEVT_COMMAND_MENU_SELECTED, wxID_SAVE);
+		saveEvent.SetEventObject(this);
+		FileSave(saveEvent);
+	}
+	else if ((modifiers & wxMOD_CONTROL) && (modifiers & wxMOD_SHIFT) && (key == 'S'))
+	{
+		wxCommandEvent saveAsEvent(wxEVT_COMMAND_MENU_SELECTED, wxID_SAVEAS);
+		saveAsEvent.SetEventObject(this);
+		FileSaveAs(saveAsEvent);
+	}
+
+	event.Skip();
+}
+
+
+void MainFrame::OnAppClose(wxCloseEvent& event)
+{
+	if (defaultFile != wxEmptyString)
+	{
+		int answer = wxMessageBox("You have an unclosed file, are you sure you want to close the program?", "Question", wxYES_NO | wxICON_QUESTION, textArea);
+		if (answer == wxYES)
+		{
+			wxExit();
+		}
+	}
+	else
+	{
+		wxExit();
+	}
 }
