@@ -162,7 +162,6 @@ void MainFrame::HelpAbout(wxCommandEvent& event)
 void MainFrame::Shortcuts(wxKeyEvent& event)
 {
 	wxChar key = event.GetKeyCode();
-	wxLogStatus(wxString::Format("Key code: " + key));
 	int modifiers = event.GetModifiers();
 
 	if ((modifiers & wxMOD_CONTROL) && (key == 'O'))
