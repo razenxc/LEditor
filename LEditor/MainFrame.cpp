@@ -151,10 +151,18 @@ void MainFrame::FileExit(wxCommandEvent& event)
 
 // ----------
 // Help Menu
-
 void MainFrame::HelpAbout(wxCommandEvent& event)
 {
-	wxMessageBox("LEditor - Simple Text Editor v1.1.0\nRazenxc Software 2023 © - github.com/razenxc/LEditor\nApache - 2.0 license\n\nShortcuts:\nOpen: Control + O ;\nSave: Control + S ; Save As: Control + Shift + S ;", "About Program", wxOK | wxSTAY_ON_TOP | wxICON_NONE, textArea);
+	wxMessageBox(R"(
+	LEditor - Simple Text Editor v1.2.0
+	Razenxc Software 2023 © - github.com/razenxc/LEditor
+	Apache - 2.0 license
+
+	Shortcuts
+	Open File: Control + O,
+	Save File: Control + S,
+	Save As File: Control + Shift + S;
+	)", "About Program", wxOK | wxSTAY_ON_TOP | wxICON_NONE, textArea);
 }
 
 // -----------
