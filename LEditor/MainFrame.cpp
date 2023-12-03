@@ -154,7 +154,7 @@ void MainFrame::FileExit(wxCommandEvent& event)
 void MainFrame::HelpAbout(wxCommandEvent& event)
 {
 	wxMessageBox(R"(
-	LEditor - Simple Text Editor v1.2.0
+	LEditor - Simple Text Editor v1.2.1
 	Razenxc Software 2023 © - github.com/razenxc/LEditor
 	Apache - 2.0 license
 
